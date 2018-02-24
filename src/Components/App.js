@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import autobind from 'auto-bind'
 
 import List from './List'
 import CardEditor from './CardEditor'
 import '../Styles/App.css';
 
-// feel the rhythm, feel the rhyme, trust the array indexes 
+// feel the rhythm, feel the rhyme, trust the array indexes... maybe
 const data_lib = {
   details: {// stuff worth saving but not always shown on UI
     cards: {
@@ -15,6 +16,7 @@ const data_lib = {
     },
     lists: {
       1: {
+        title: '',
         created: 'datetime', 
         edited: ['datetime', 'datetime' ]
       }
@@ -23,7 +25,10 @@ const data_lib = {
   lists: [
     {
       id: 1,
-      title: 'First List, in JSON', 
+      get title() {
+        console.log(this)
+        return 'title'
+      }, 
       cards: [
         {
           id: 9, 
@@ -53,15 +58,42 @@ const data_lib = {
   ]
 }
 
+const flat_data = {
+  10: {
+    id: 10,
+    type: 'list',
+    content: {
+      title: 'Put all in an object',
+      card_ids: [45, 46, 47, 48]
+    }, 
+    meta: {
+      created_at: '', 
+      edit_log: []
+    }
+  }, 
+  45: {
+    id: 45,
+    type: 'card', 
+    current_list: 10, // getter, return most recent from history? 
+    content: {
+      title: 'Card in that object',
+      body: 'This will be md'
+    }, 
+    meta: {
+      created_at: '', // also getter from history?
+      history: [{}] // log either a edit content or move card. [separate keys?]
+    }
+  }
+}
+
 class App extends Component {
   constructor(props) {
     super(props)
+    autobind(this)
     this.state = {
-      selected_card: null /// aka card being dragged
+      selected_card: null, /// aka card being dragged
+      edit_card: false
     }
-
-    this.handleClick = this.handleClick.bind(this)
-    this.moveCard = this.moveCard.bind(this)
   }
 
   handleClick(e) {
@@ -82,19 +114,25 @@ class App extends Component {
     console.log('move card', this.state.selected_card)
   }
 
+  editCard() {
+    
+  }
+
   render() {
     const lists = data_lib.lists.map(l => <List {...l} key={l.id}/>) 
 
     return (
       <div className="App">
+        {this.state.edit_card && <CardEditor {...data_lib} />}
         <div className="top-bar" style={{ textAlign: 'center' }}>
-        <CardEditor />
-          {this.state.selected_card}
-          {
-            this.state.selected_card &&
+          <p>{this.state.selected_card}</p>
+          {this.state.selected_card &&
+          <div>
             <button onClick={this.moveCard}>Move</button>
-          }
+            <button onClick={this.editCard}>Edit</button>            
+          </div>}
         </div>
+
         <div className="list-space" id='list-space' onClick={this.handleClick}>
           {lists}
         </div>

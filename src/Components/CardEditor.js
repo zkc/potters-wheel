@@ -16,6 +16,7 @@ class CardEditor extends Component {
 
   }
 
+  // try contenteditable in place of inputs?v--- https://stackoverflow.com/questions/22677931/react-js-onchange-event-for-contenteditable
   render() {
     return (
       <div className="card-editor">
