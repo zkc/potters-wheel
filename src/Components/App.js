@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import List from './List'
+import CardEditor from './CardEditor'
 import '../Styles/App.css';
 
 // feel the rhythm, feel the rhyme, trust the array indexes 
@@ -87,6 +88,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="top-bar" style={{ textAlign: 'center' }}>
+        <CardEditor />
           {this.state.selected_card}
           {
             this.state.selected_card &&

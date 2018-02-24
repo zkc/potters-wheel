@@ -40,3 +40,42 @@
   min-height: 70px;
   margin-top: 10px;
 }
+
+.card-editor {
+  border: 2px solid black;  
+  background: white;
+  
+  width: 400px;
+  height: 400px;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -200px;
+
+  padding: 20px;
+}
+
+.card-editor * {
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  
+}
+
+
+.card-editor .title-input {
+  border: 1px solid black;
+  padding: 3px;
+  font-size: 2em;
+  height: 2em;
+}
+
+.card-editor .content-input {
+  border: 1px solid black;  
+  padding: 3px;
+  margin-top: 30px;
+
+  height: 300px;
+}
