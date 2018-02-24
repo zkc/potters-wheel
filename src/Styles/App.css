@@ -19,21 +19,23 @@
 .list {
   border: 1px solid black;
   padding: 5px;
+  margin: 0 10px;
   width: 250px;
 }
 
 .list-title {
   border-bottom: 1px solid black;
-  /* margin: 0 -5px; */
   padding: 3px;
 }
 
+
 .card-space {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .card {
   border: 1px solid black;
   padding: 10px;
   min-height: 70px;
+  margin-top: 10px;
 }
