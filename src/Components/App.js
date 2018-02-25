@@ -4,14 +4,15 @@ import { connect } from 'react-redux'
 
 import List from './List'
 import CardEditor from './CardEditor'
-import { updateCard } from '../modules/data'
+import { updateCard } from '../modules/cards'
 import '../Styles/App.css'
 import { DragDropContextProvider } from 'react-dnd';
 
 // feel the rhythm, feel the rhyme, trust the array indexes... maybe
 
 const mapStateToProps = (state) => ({
-  data: state.data
+  data: state.data, 
+  cards: state.cards
 })
 
 class App extends Component {
@@ -53,7 +54,8 @@ class App extends Component {
   }
 
   generateListDisplay() {
-    const { list_id_map, cards, lists } = this.props.data
+    const { list_id_map,  lists } = this.props.data
+    const { cards } = this.props
     const display_data = {
       all_cards: cards,
       lists: list_id_map.map(listId => ({ id:listId, title: lists[listId].title, cards: lists[listId].card_id_map.map(c => ({ ...cards[c] })) }))
