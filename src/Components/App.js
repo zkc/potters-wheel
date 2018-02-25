@@ -26,8 +26,7 @@ const data_lib = {
     {
       id: 1,
       get title() {
-        console.log(this)
-        return 'title'
+        return 'List title in a get?'
       }, 
       cards: [
         {
@@ -58,13 +57,16 @@ const data_lib = {
   ]
 }
 
+
+const list_id_map = [10]
+
 const flat_data = {
   10: {
     id: 10,
     type: 'list',
     content: {
-      title: 'Put all in an object',
-      card_ids: [45, 46, 47, 48]
+      title: 'Put all info in an object',
+      card_ids: [45, 46]
     }, 
     meta: {
       created_at: '', 
@@ -76,14 +78,27 @@ const flat_data = {
     type: 'card', 
     current_list: 10, // getter, return most recent from history? 
     content: {
-      title: 'Card in that object',
-      body: 'This will be md'
+      title: 'Card aaa in that object',
+      body: 'This will be md' // ? card could contain another list?
     }, 
     meta: {
       created_at: '', // also getter from history?
       history: [{}] // log either a edit content or move card. [separate keys?]
     }
-  }
+  },
+  46: {
+    id: 46,
+    type: 'card', 
+    current_list: 10, // getter, return most recent from history? 
+    content: {
+      title: 'Card bbb in that object',
+      body: 'This will be md' // ? card could contain another list?
+    }, 
+    meta: {
+      created_at: '', // also getter from history?
+      history: [{}] // log either a edit content or move card. [separate keys?]
+    }
+  },
 }
 
 class App extends Component {
@@ -99,10 +114,13 @@ class App extends Component {
   handleClick(e) {
     const eClass = e.target.className
     const eId = e.target.id
+    console.log(eClass, eId)
     switch (eClass) {
       case 'card':
-        this.setState({selected_card: eId})
+        this.setState({selected_card: eId, edit_card: true})
         break;
+      case 'App':
+        this.setState({edit_card:false})
     
       default:
         break;
@@ -122,7 +140,7 @@ class App extends Component {
     const lists = data_lib.lists.map(l => <List {...l} key={l.id}/>) 
 
     return (
-      <div className="App">
+      <div className="App" onClick={this.handleClick}>
         {this.state.edit_card && <CardEditor {...data_lib} />}
         <div className="top-bar" style={{ textAlign: 'center' }}>
           <p>{this.state.selected_card}</p>
@@ -133,7 +151,7 @@ class App extends Component {
           </div>}
         </div>
 
-        <div className="list-space" id='list-space' onClick={this.handleClick}>
+        <div className="list-space" id='list-space' >
           {lists}
         </div>
       </div>
