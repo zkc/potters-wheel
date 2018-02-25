@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import List from './List'
 import CardEditor from './CardEditor'
 import { updateCard } from '../modules/cards'
+import { moveCard } from '../modules/lists'
 import '../Styles/App.css'
 import { DragDropContextProvider } from 'react-dnd';
 
@@ -12,14 +13,15 @@ import { DragDropContextProvider } from 'react-dnd';
 
 const mapStateToProps = (state) => ({
   data: state.data, 
-  cards: state.cards
+  cards: state.cards, 
+  lists: state.lists
 })
 
 class App extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     autobind(this)
+
     this.state = {
       selected_card: null, /// aka card being dragged
       edit_card: false
@@ -28,15 +30,18 @@ class App extends Component {
 
   handleClick(e) {
     const eClass = e.target.className
-    const eId = e.target.id
+    const eId = e.target.id*1
     switch (eClass) {
-      case 'card':
-        this.setState({selected_card: eId, edit_card: true}) // ? move this back to the card? 
+      case 'edit':
+        this.setState({ selected_card: eId, edit_card: true }) // ? move this back to the card? 
         break
 
+      case 'card':
+        this.setState({ selected_card: eId })
+      case 'card-space':
       case 'list-space':
       case 'App':
-        this.setState({edit_card:false})
+        this.setState({ edit_card: false })
         break
 
       default:
@@ -45,20 +50,29 @@ class App extends Component {
   }
 
   moveCard() {
-    /// update store
-    console.log('move card', this.state.selected_card)
+    /// fake move
+    const to = {
+      id: 11, 
+      array_index: 1
+    }
+    const from = {
+      id: 10
+    }
+    const to_action = { to, from, card_id: this.state.selected_card }
+
+    this.props.moveCard(to_action)
   }
 
-  editCard() {
-    
-  }
 
   generateListDisplay() {
-    const { list_id_map,  lists } = this.props.data
-    const { cards } = this.props
+    const { list_id_map } = this.props.data
+    const { cards, lists } = this.props
     const display_data = {
       all_cards: cards,
-      lists: list_id_map.map(listId => ({ id:listId, title: lists[listId].title, cards: lists[listId].card_id_map.map(c => ({ ...cards[c] })) }))
+      lists: list_id_map.map((listId, i) => ({ 
+        id:listId, title: lists[listId].title, 
+        array_index: i,
+        cards: lists[listId].card_id_map.map((c, i) => ({ ...cards[c], array_index: i })) }))
     }
     return display_data
   }
@@ -76,7 +90,7 @@ class App extends Component {
           <p>{this.state.selected_card}</p>
           {this.state.selected_card &&
           <div>
-            <button onClick={this.moveCard}>Move</button>
+            <button onClick={() => this.moveCard()}>Move</button>
             <button onClick={this.editCard}>Edit</button>            
           </div>}
         </div>
@@ -90,4 +104,7 @@ class App extends Component {
 }
 
 
-export default connect(mapStateToProps, {updateCard})(App)
+export default connect(mapStateToProps, 
+  { updateCard, moveCard }
+)(App)
+

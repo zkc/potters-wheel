@@ -6,7 +6,7 @@ export const flat_data = {
       card_id_map: [45, 46, 47]
     },
     11: {
-      id: 10,
+      id: 11,
       title: 'Same cards, NEW LIST!', 
       card_id_map: [47, 45]
     }
