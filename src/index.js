@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+
+import store from './store'
 
 import './Styles/index.css';
 import App from './Components/App';
@@ -98,53 +101,22 @@ const flat_data_bigger_demo = {
   },
 }
 
-const flat_data = {
-  lists: {
-    10: {
-      id: 10,
-      title: 'Simple data for now', 
-      card_id_map: [45, 46, 47]
-    },
-    11: {
-      id: 10,
-      title: 'Same cards, NEW LIST!', 
-      card_id_map: [47, 45]
-    }
-  }, 
-  cards: {
-    45: {
-      id: 45,
-      current_list_id: 10,
-      title: 'Put card edit on double click?', 
-      body: 'make this into Markdown'
-    }, 
-    46: {
-      id: 46, 
-      current_list: 10,
-      title: 'Here\'s a great card', 
-      body: 'Need to edit this one'
-    }, 
-    47: {
-      id: 47, 
-      current_list: 10,  
-      title: 'Will three cards work?',
-      body: 'Let\'s find out'
-    }
-  }
-}
 
 
+// const gen_data_lib = {
+//   all_cards: flat_data.cards,
+//   lists: list_id_map.map(listId => ({ id:listId, title: flat_data.lists[listId].title, cards: flat_data.lists[listId].card_id_map.map(c => ({ ...flat_data.cards[c] })) }))
+// }
 
-const list_id_map = [10, 11]
+// const editCard = ({ card, card_id }) => {
+//   this.INeedReduxNow()
+// }
 
-const gen_data_lib = {
-  all_cards: flat_data.cards,
-  lists: list_id_map.map(listId => ({ id:listId, title: flat_data.lists[listId].title, cards: flat_data.lists[listId].card_id_map.map(c => ({ ...flat_data.cards[c] })) }))
-}
+ReactDOM.render(
+  <Provider {...{store}}>
+    <App />
+  </Provider>, 
+  document.getElementById('root')
+);
 
-const editCard = ({ card, card_id }) => {
-  this.INeedReduxNow()
-}
-
-ReactDOM.render(<App data={gen_data_lib}/>, document.getElementById('root'));
 registerServiceWorker();
