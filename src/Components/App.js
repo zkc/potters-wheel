@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import autobind from 'auto-bind'
 
 import List from './List'
 import CardEditor from './CardEditor'
-import '../Styles/App.css';
+import '../Styles/App.css'
 
 // feel the rhythm, feel the rhyme, trust the array indexes... maybe
 
@@ -21,16 +21,18 @@ class App extends Component {
   handleClick(e) {
     const eClass = e.target.className
     const eId = e.target.id
-    console.log(eClass, eId)
     switch (eClass) {
       case 'card':
-        this.setState({selected_card: eId, edit_card: true})
-        break;
+        this.setState({selected_card: eId, edit_card: true}) // ? move this back to the card? 
+        break
+
+      case 'list-space':
       case 'App':
         this.setState({edit_card:false})
-    
+        break
+
       default:
-        break;
+        break
     }
   }
 
@@ -49,7 +51,7 @@ class App extends Component {
 
     return (
       <div className="App" onClick={this.handleClick}>
-        {this.state.edit_card && <CardEditor cardId={this.state.selected_card} />}
+        {this.state.edit_card && <CardEditor {...data.all_cards[this.state.selected_card]} cardId={this.state.selected_card} />}
         <div className="top-bar" style={{ textAlign: 'center' }}>
           <p>{this.state.selected_card}</p>
           {this.state.selected_card &&
@@ -68,4 +70,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default App

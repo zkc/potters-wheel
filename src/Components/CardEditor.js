@@ -7,7 +7,7 @@ class CardEditor extends Component {
     // props: cardId, title, content
 
     this.state = {
-      content_input: props.content || '', // setting inital values
+      content_input: props.body || '', // setting inital values
       title_input: props.title || ''
     }
   }
