@@ -40,11 +40,20 @@
   padding: 10px;
   min-height: 70px;
   margin-top: 10px;
+  position: relative;
+}
+
+.card .edit {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
 }
 
 .card-editor {
   border: 2px solid black;  
   background: white;
+  z-index: 2;
   
   width: 400px;
   height: 400px;

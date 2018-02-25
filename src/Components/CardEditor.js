@@ -16,6 +16,11 @@ class CardEditor extends Component {
 
   }
 
+  componentWillUnmount() {
+    // this.props.updateCard({this.state, this.props.id})
+    console.log(this.props.id, this.state)
+  }
+
   // try contenteditable in place of inputs?v--- https://stackoverflow.com/questions/22677931/react-js-onchange-event-for-contenteditable
   render() {
     return (

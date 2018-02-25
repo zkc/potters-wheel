@@ -142,5 +142,9 @@ const gen_data_lib = {
   lists: list_id_map.map(listId => ({ id:listId, title: flat_data.lists[listId].title, cards: flat_data.lists[listId].card_id_map.map(c => ({ ...flat_data.cards[c] })) }))
 }
 
+const editCard = ({ card, card_id }) => {
+  this.INeedReduxNow()
+}
+
 ReactDOM.render(<App data={gen_data_lib}/>, document.getElementById('root'));
 registerServiceWorker();
