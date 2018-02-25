@@ -11,8 +11,8 @@ console.log(initialState)
 export default (state=initialState, action) => {
   switch (action.type) {
     case UPDATE_CARD:
-
-      return Object.assign({}, state, { cards: { [action.card.id]: action.card } })
+    
+      return Object.assign({}, state, { cards: { ...state.cards, [action.card.id]: action.card } })
       
       break;
   
@@ -23,7 +23,7 @@ export default (state=initialState, action) => {
 }
 
 
-export const updateCard = (card, card_id) => ({
+export const updateCard = ({card, card_id}) => ({
   type: UPDATE_CARD, 
   card
 }) 

@@ -69,7 +69,7 @@ class App extends Component {
 
     return (
       <div className="App" onClick={this.handleClick}>
-        {this.state.edit_card && <CardEditor {...display_data.all_cards[this.state.selected_card]} cardId={this.state.selected_card} />}
+        {this.state.edit_card && <CardEditor updateCard={this.props.updateCard} {...display_data.all_cards[this.state.selected_card]} card_id={this.state.selected_card} />}
         <div className="top-bar" style={{ textAlign: 'center' }}>
           <p>{this.state.selected_card}</p>
           {this.state.selected_card &&

@@ -7,8 +7,8 @@ class CardEditor extends Component {
     // props: cardId, title, content
 
     this.state = {
-      content_input: props.body || '', // setting inital values
-      title_input: props.title || ''
+      body: props.body || '', // setting inital values
+      title: props.title || ''
     }
   }
 
@@ -17,8 +17,9 @@ class CardEditor extends Component {
   }
 
   componentWillUnmount() {
-    // this.props.updateCard({this.state, this.props.id})
-    console.log(this.props.id, this.state)
+    this.props.updateCard({card: { ...this.state, id: this.props.card_id }})
+
+    console.log(this.props.card_id, this.state)
   }
 
   // try contenteditable in place of inputs?v--- https://stackoverflow.com/questions/22677931/react-js-onchange-event-for-contenteditable
@@ -27,13 +28,13 @@ class CardEditor extends Component {
       <div className="card-editor">
         <textarea 
           className="title-input" 
-          value={this.state.title_input}  
-          onChange={e => this.setState({ title_input: e.target.value })}
+          value={this.state.title}  
+          onChange={e => this.setState({ title: e.target.value })}
         />
         <textarea 
           className="content-input" 
-          value={this.state.content_input} 
-          onChange={e => this.setState({ content_input: e.target.value })}
+          value={this.state.body} 
+          onChange={e => this.setState({ body: e.target.value })}
         />
       </div>
     )
