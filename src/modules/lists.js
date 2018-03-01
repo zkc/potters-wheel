@@ -17,10 +17,7 @@ export default (state=initialState, action) => {
       from_list_map.splice(from_list_map.indexOf(action.card_id), 1)
 
       const to_list_map = state[action.to.id].card_id_map.slice()
-      console.log('to list map', to_list_map)
       to_list_map.splice(action.to.array_index, 0, action.card_id)
-      console.log('to list map post slice', to_list_map)
-
 
       return {
         ...state,
