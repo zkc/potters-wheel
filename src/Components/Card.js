@@ -24,7 +24,8 @@ const dragSpec = {
         array_index: dropOnCard.array_index
       }
       const from = {
-        id: props.current_list
+        id: props.current_list,
+        array_index: props.array_index        
       }
       const to_action = { to, from, card_id: props.id}
   

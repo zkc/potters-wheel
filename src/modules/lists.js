@@ -12,17 +12,30 @@ export default (state=initialState, action) => {
         ...state, 
         [action.list.id]: action.list
       }
+
     case MOVE_CARD:
-      const from_list_map = state[action.from.id].card_id_map.slice()
-      from_list_map.splice(from_list_map.indexOf(action.card_id), 1)
+      if (action.from.id === action.to.id) {
+        const list_id = action.to.id
+        const list_map = state[list_id].card_id_map.slice()
+        list_map.splice(action.from.array_index, 1)        
+        list_map.splice(action.to.array_index, 0, action.card_id)
 
-      const to_list_map = state[action.to.id].card_id_map.slice()
-      to_list_map.splice(action.to.array_index, 0, action.card_id)
+        return {
+          ...state, 
+          [list_id]: { ...state[list_id], card_id_map: list_map }
+        }
 
-      return {
-        ...state,
-        [action.from.id]: { ...state[action.from.id], card_id_map: from_list_map }, 
-        [action.to.id]: { ...state[action.to.id], card_id_map: to_list_map }
+      } else {
+        const from_list_map = state[action.from.id].card_id_map.slice()
+        from_list_map.splice(action.from.array_index, 1)
+        const to_list_map = state[action.to.id].card_id_map.slice()
+        to_list_map.splice(action.to.array_index, 0, action.card_id)
+  
+        return {
+          ...state,
+          [action.from.id]: { ...state[action.from.id], card_id_map: from_list_map }, 
+          [action.to.id]: { ...state[action.to.id], card_id_map: to_list_map }
+        }
       }
 
       
@@ -38,8 +51,8 @@ export const updateList = ({ list }) => ({
 }) 
 
 export const moveCard = ({ to, from, card_id }) => ({
-  // to/from: { id, array_index }
+  // to/from: { id~list~, array_index }
   type: MOVE_CARD, 
-  from, to, card_id
+  to, from, card_id
 })
 
