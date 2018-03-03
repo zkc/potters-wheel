@@ -7,8 +7,8 @@ export const flat_data = {
     },
     11: {
       id: 11,
-      title: 'Same cards, NEW LIST!', 
-      card_id_map: [47, 45]
+      title: 'What\'s next!', 
+      card_id_map: [88, 89, 90, 91]
     }
   }, 
   cards: {
@@ -29,6 +29,26 @@ export const flat_data = {
       // current_list: 10,  
       title: 'Will three cards work?',
       body: 'Let\'s find out'
+    }, 
+    88: {
+      id: 88, 
+      title: 'Put onto Github',
+      body: 'whoo'
+    },
+    89: {
+      id: 89,
+      title: 'List as drop target',
+      body: 'want to show gap while dragging'
+    }, 
+    90: {
+      id: 90,
+      title: 'Add new cards and Lists',
+      body: 'Also add new styles for cards/list. Lists with limits. cards with different sizes. List with adjustable gaps on either side'
+    }, 
+    91 : {
+      id: 91, 
+      title: 'List reorder and hide', 
+      body: ''
     }
   }, 
   list_id_map: [10, 11]

@@ -42,7 +42,7 @@ class App extends Component {
       case 'card':
         this.setState({ selected_card: eId, edit_card: false })
         break
-        
+
       case 'card-space':
       case 'list-space':
       case 'App':
@@ -52,21 +52,6 @@ class App extends Component {
       default:
         break
     }
-  }
-
-  moveCard() {
-    /// fake move
-    const to = {
-      id: 11, 
-      array_index: 1
-    }
-    const from = {
-      id: 10,
-      array_index: 2
-    }
-    const to_action = { to, from, card_id: this.state.selected_card }
-
-    this.props.moveCard(to_action)
   }
 
 
@@ -94,11 +79,6 @@ class App extends Component {
         {this.state.edit_card && <CardEditor updateCard={this.props.updateCard} {...display_data.all_cards[this.state.selected_card]} card_id={this.state.selected_card} />}
         <div className="top-bar" style={{ textAlign: 'center' }}>
           <p>{this.state.selected_card}</p>
-          {this.state.selected_card &&
-          <div>
-            <button onClick={() => this.moveCard()}>Move</button>
-            <button onClick={this.editCard}>Edit</button>            
-          </div>}
         </div>
 
         <div className="list-space" id='list-space' >
