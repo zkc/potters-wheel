@@ -10,7 +10,7 @@ import CardEditor from './CardEditor'
 import { updateCard } from '../modules/cards'
 import { moveCard } from '../modules/lists'
 import '../Styles/App.css'
-import { DragDropContextProvider } from 'react-dnd';
+
 
 // feel the rhythm, feel the rhyme, trust the array indexes... maybe
 
@@ -40,7 +40,9 @@ class App extends Component {
         break
 
       case 'card':
-        this.setState({ selected_card: eId })
+        this.setState({ selected_card: eId, edit_card: false })
+        break
+        
       case 'card-space':
       case 'list-space':
       case 'App':
@@ -59,7 +61,8 @@ class App extends Component {
       array_index: 1
     }
     const from = {
-      id: 10
+      id: 10,
+      array_index: 2
     }
     const to_action = { to, from, card_id: this.state.selected_card }
 

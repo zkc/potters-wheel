@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { DragSource } from 'react-dnd'
 import { DropTarget } from 'react-dnd'
 import { connect } from 'react-redux'
@@ -15,8 +15,6 @@ const dragSpec = {
   }, 
   endDrag(props, monitor, component) {
     if (monitor.didDrop()) {
-      console.log('dropped! drag', props,component)
-      console.log(monitor.getDropResult())
       const dropOnCard = monitor.getDropResult()
 
       const to = {
@@ -37,7 +35,6 @@ const dragSpec = {
 const dropSpec = {
   drop(props, monitor, component) {
     // console.log(monitor.getDropResult()) why is this null?
-    console.log('drop', props)
     return {
       id: props.id,
       array_index: props.array_index, 
@@ -61,7 +58,6 @@ const dropCollect = (connect, monitor) => {
 
 
 const Card = (props) => {
-  // console.log('compo', props)
   return  props.connectDropSource(
     props.connectDragSource (
       <div className="card" id={props.id} style={{ display: props.isDragging && 'none' }}>
