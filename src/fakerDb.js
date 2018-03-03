@@ -14,19 +14,19 @@ export const flat_data = {
   cards: {
     45: {
       id: 45,
-      current_list_id: 10,
+      // current_list: 10,
       title: 'Put card edit on double click?', 
       body: 'make this into Markdown'
     }, 
     46: {
       id: 46, 
-      current_list: 10,
+      // current_list: 10,
       title: 'Here\'s a great card', 
       body: 'Need to edit this one'
     }, 
     47: {
       id: 47, 
-      current_list: 10,  
+      // current_list: 10,  
       title: 'Will three cards work?',
       body: 'Let\'s find out'
     }

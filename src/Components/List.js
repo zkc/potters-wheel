@@ -4,7 +4,7 @@ import Card from './Card'
 
 
 const List = (props) => {
-  const cards = props.cards.map(c => <Card {...c} key={c.id}/>)
+  const cards = props.cards.map(c => <Card {...c} current_list={props.id} key={c.id}/>)
   return (
     <div className="list" id={props.id}>
       <div className="list-title">{props.title}</div>

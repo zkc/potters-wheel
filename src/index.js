@@ -17,3 +17,8 @@ ReactDOM.render(
 );
 
 registerServiceWorker();
+
+
+// future interface testing, touch/mouse combo
+// const doc = document.getElementById('root')
+// doc.ontouchstart = (e) => console.log(e)

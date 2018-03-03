@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import autobind from 'auto-bind'
 import { connect } from 'react-redux'
+import HTML5Backend from 'react-dnd-html5-backend';
+import { default as TouchBackend } from 'react-dnd-touch-backend';
+import { DragDropContext } from 'react-dnd';
 
 import List from './List'
 import CardEditor from './CardEditor'
@@ -106,5 +109,4 @@ class App extends Component {
 
 export default connect(mapStateToProps, 
   { updateCard, moveCard }
-)(App)
-
+)(DragDropContext(HTML5Backend)(App))
