@@ -1,3 +1,3 @@
 # Potter's Wheel
-### List powered organization
+### List based organization
 (Trello Redesign)
