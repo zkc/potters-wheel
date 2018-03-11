@@ -15,23 +15,23 @@ const dragSpec = {
       list_id: props.current_list
     }
   }, 
-  endDrag(props, monitor, component) {
-    if (monitor.didDrop()) {
-      const dropOnCard = monitor.getDropResult()
+  // endDrag(props, monitor, component) {
+  //   if (monitor.didDrop()) {
+  //     const dropOnCard = monitor.getDropResult()
 
-      const to = {
-        id: dropOnCard.list_id, 
-        array_index: dropOnCard.array_index
-      }
-      const from = {
-        id: props.current_list,
-        array_index: props.array_index        
-      }
-      const to_action = { to, from, card_id: props.id}
+  //     const to = {
+  //       id: dropOnCard.list_id, 
+  //       array_index: dropOnCard.array_index
+  //     }
+  //     const from = {
+  //       id: props.current_list,
+  //       array_index: props.array_index        
+  //     }
+  //     const to_action = { to, from, card_id: props.id}
   
-      props.moveCard(to_action)
-    }
-  }
+  //     props.moveCard(to_action)
+  //   }
+  // }
 }
 
 const dropSpec = {
@@ -53,7 +53,7 @@ const dropSpec = {
     // console.log(monitor.getSourceClientOffset())
 
 
-    /// this only works one direction, in the same list
+    /// this only works one direction, and onliy in the same list
     const drag_item = monitor.getItem()
     if (drag_item.id !== props.id) {
       // console.log(monitor.getItem(), props.id)
