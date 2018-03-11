@@ -37,7 +37,7 @@ export const flat_data = {
     },
     89: {
       id: 89,
-      title: 'List as drop target',
+      title: 'Drop target previewing',
       body: 'want to show gap while dragging'
     }, 
     90: {
