@@ -65,6 +65,8 @@ class App extends Component {
       lists: list_id_map.map((listId, i) => ({ 
         id:listId, title: lists[listId].title, 
         array_index: i,
+        /// put array index into redux, connect in array index in Card.
+        /// setting it here causes the 'beginDrag' function to stick.
         cards: lists[listId].card_id_map.map((c, i) => ({ ...cards[c], array_index: i })) }))
     }
     return display_data

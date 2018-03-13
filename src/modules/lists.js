@@ -1,7 +1,9 @@
 import { flat_data } from '../fakerDb'
+import { changeCardPos } from './cards'
 
 export const  UPDATE_LIST = 'list/UPDATE_LIST'
-export const MOVE_CARD = 'list/MOVE_CARD'
+export const MOVE_CARD = 'MOVE_CARD'
+
 
 const initialState = Object.assign({}, flat_data.lists) // why not? 
 
@@ -15,17 +17,31 @@ export default (state=initialState, action) => {
 
     case MOVE_CARD:
       if (action.from.id === action.to.id) {
+        
         const list_id = action.to.id
         const list_map = state[list_id].card_id_map.slice()
         list_map.splice(action.from.array_index, 1)        
         list_map.splice(action.to.array_index, 0, action.card_id)
+
+        console.log('MOVE')
+        /// could I use one action with two separate reducers? 
+        changeCardPos({
+          card_id: action.to.card_id, 
+          new_list: action.from.list_id,
+          new_array_index: action.from.array_index
+        })
+        changeCardPos({
+          card_id: action.from.id,
+          new_list: action.to.list_id, 
+          new_array_index: action.to.list_id
+        })
 
         return {
           ...state, 
           [list_id]: { ...state[list_id], card_id_map: list_map }
         }
 
-      } else {
+      } else {//// don't forget about down here!
         const from_list_map = state[action.from.id].card_id_map.slice()
         from_list_map.splice(action.from.array_index, 1)
         const to_list_map = state[action.to.id].card_id_map.slice()

@@ -15,6 +15,10 @@ const dragSpec = {
       list_id: props.current_list
     }
   }, 
+  isDragging(props, monitor) {
+    // console.log(monitor.getItem())
+    return monitor.getItem().id === props.id;
+  }
   // endDrag(props, monitor, component) {
   //   if (monitor.didDrop()) {
   //     const dropOnCard = monitor.getDropResult()
@@ -56,18 +60,20 @@ const dropSpec = {
     /// this only works one direction, and onliy in the same list
     const drag_item = monitor.getItem()
     if (drag_item.id !== props.id) {
-      // console.log(monitor.getItem(), props.id)
       const to = {
         id: drag_item.list_id, 
-        array_index: drag_item.array_index
+        array_index: drag_item.array_index,
+        card_id: drag_item.id
       }
       const from = {
         id: props.current_list,
-        array_index: props.array_index        
+        array_index: props.array_index,
+        card_id: props.id   
       }
-      const to_action = { to, from, card_id: props.id}
-  
+      const to_action = { to, from, card_id: props.id, }
+      
       // console.log(to_action)
+      // console.log(props, drag_item, to_action)
       props.moveCard(to_action)
 
     }
@@ -100,12 +106,17 @@ const Card = (props) => {
       <div className="card" id={props.id} >
         <div className="edit" id={props.id}>E</div>
         {props.title}
+        {props.id}
         {props.isDragging && 'DRAGGING  '}
       </div>
     )
   )  
 }
 
+const mapStateToProps = (state, props) => ({
+  the_card: state.cards[props.id]
+})
+
 const DnDCard = DropTarget(types.CARD, dropSpec, dropCollect)(DragSource(types.CARD, dragSpec, dragCollect)(Card))
 
-export default connect(null, { moveCard })(DnDCard)
+export default connect(mapStateToProps, { moveCard })(DnDCard)
