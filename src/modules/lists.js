@@ -1,5 +1,4 @@
 import { flat_data } from '../fakerDb'
-import { changeCardPos } from './cards'
 
 export const  UPDATE_LIST = 'list/UPDATE_LIST'
 export const MOVE_CARD = 'MOVE_CARD'
@@ -20,32 +19,25 @@ export default (state=initialState, action) => {
         
         const list_id = action.to.id
         const list_map = state[list_id].card_id_map.slice()
-        list_map.splice(action.from.array_index, 1)        
+        const from_card_index = list_map.indexOf(action.card_id)        
+        list_map.splice(from_card_index, 1)        
         list_map.splice(action.to.array_index, 0, action.card_id)
-
-        console.log('MOVE')
-        /// could I use one action with two separate reducers? 
-        changeCardPos({
-          card_id: action.to.card_id, 
-          new_list: action.from.list_id,
-          new_array_index: action.from.array_index
-        })
-        changeCardPos({
-          card_id: action.from.id,
-          new_list: action.to.list_id, 
-          new_array_index: action.to.list_id
-        })
 
         return {
           ...state, 
           [list_id]: { ...state[list_id], card_id_map: list_map }
         }
 
-      } else {//// don't forget about down here!
-        const from_list_map = state[action.from.id].card_id_map.slice()
-        from_list_map.splice(action.from.array_index, 1)
-        const to_list_map = state[action.to.id].card_id_map.slice()
-        to_list_map.splice(action.to.array_index, 0, action.card_id)
+      } else {
+        const from_list_map = state[action.from.id].card_id_map.slice() // lookup index!
+        const to_list_map = state[action.to.id].card_id_map.slice()        
+        const from_card_index = from_list_map.indexOf(action.card_id)
+        console.log(from_card_index, from_list_map, action.to.id, action.from.id)
+        if (from_card_index > -1) {
+          from_list_map.splice(from_card_index, 1)
+          to_list_map.splice(action.to.array_index, 0, action.card_id)
+        }
+
   
         return {
           ...state,

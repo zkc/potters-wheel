@@ -12,13 +12,14 @@ const dragSpec = {
     // console.log(component)
     return {
       id: props.id,
-      array_index() { return component.props.array_index },  // this needs to be LOOKUP 
-      list_id() { return component.props.current_list }     // same here
+      /// Sooo the array_index getter does update as props change, BUT the current_list does not
+      array_index() { console.log('get ar i', component.props.array_index ); return component.props.array_index },  // this needs to be LOOKUP 
+      list_id() { console.log('get list id', component.props.current_list ); return component.props.current_list }     // same here
     }
   }, 
-  // isDragging(props, monitor) {
-  //   return monitor.getItem().id === props.id;
-  // }
+  isDragging(props, monitor) {
+    return monitor.getItem().id === props.id;
+  }
   // endDrag(props, monitor, component) {
   //   if (monitor.didDrop()) {
   //     const dropOnCard = monitor.getDropResult()
@@ -39,14 +40,14 @@ const dragSpec = {
 }
 
 const dropSpec = {
-  drop(props, monitor, component) {
-    // console.log(monitor.getDropResult()) why is this null?
-    return {
-      id: props.id,
-      array_index: props.array_index, 
-      list_id: props.current_list
-    }
-  }, 
+  // drop(props, monitor, component) {
+  //   // console.log(monitor.getDropResult()) why is this null?
+  //   return {
+  //     id: props.id,
+  //     array_index: props.array_index, 
+  //     list_id: props.current_list
+  //   }
+  // }, 
   hover(props, monitor, component) {
 
     // console.log(props.title)
@@ -57,21 +58,20 @@ const dropSpec = {
     // console.log(monitor.getSourceClientOffset())
 
 
-    /// this only works one direction, and onliy in the same list
     const drag_item = monitor.getItem()
     /// need to swtich to moving drag item TOO the new spot, not away
     if (drag_item.id !== props.id) {
-      const to = {
-        card_id: drag_item.id,
-        id: drag_item.list_id(), /// lookup from store from card_id
-        array_index: drag_item.array_index() // lookup from store
-      }
       const from = {
+        card_id: drag_item.id,
+        id: drag_item.list_id(), /// lookup from compo
+        array_index: drag_item.array_index() // lookup from compo
+      }
+      const to = {
         id: props.current_list,
         array_index: props.array_index,
-        card_id: props.id   
+        // card_id: props.id   
       }
-      const to_action = { to, from, card_id: props.id, }
+      const to_action = { to, from, card_id: drag_item.id, }
       
       // console.log(to_action)
       // console.log(props, drag_item, to_action)
@@ -99,6 +99,7 @@ const dropCollect = (connect, monitor) => {
 class Card extends Component {
   render() {
     const { props } = this
+    props.isDragging && console.log('card drag render', props.current_list)
     return  props.connectDropSource(
       props.connectDragSource (
         props.isDragging ?
@@ -106,6 +107,7 @@ class Card extends Component {
         :
         <div className="card" id={props.id} >
           <div className="edit" id={props.id}>E</div>
+          {props.current_list}{'-list '}
           {props.title}
           {props.id}
           {props.isDragging && 'DRAGGING  '}
