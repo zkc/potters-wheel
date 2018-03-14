@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { DragSource } from 'react-dnd'
 import { DropTarget } from 'react-dnd'
 import { connect } from 'react-redux'
@@ -9,16 +9,16 @@ import { moveCard } from '../modules/lists'
 
 const dragSpec = {
   beginDrag(props, monitor, component) {
+    // console.log(component)
     return {
       id: props.id,
-      array_index: props.array_index, 
-      list_id: props.current_list
+      array_index() { return component.props.array_index },  // this needs to be LOOKUP 
+      list_id() { return component.props.current_list }     // same here
     }
   }, 
-  isDragging(props, monitor) {
-    // console.log(monitor.getItem())
-    return monitor.getItem().id === props.id;
-  }
+  // isDragging(props, monitor) {
+  //   return monitor.getItem().id === props.id;
+  // }
   // endDrag(props, monitor, component) {
   //   if (monitor.didDrop()) {
   //     const dropOnCard = monitor.getDropResult()
@@ -59,11 +59,12 @@ const dropSpec = {
 
     /// this only works one direction, and onliy in the same list
     const drag_item = monitor.getItem()
+    /// need to swtich to moving drag item TOO the new spot, not away
     if (drag_item.id !== props.id) {
       const to = {
-        id: drag_item.list_id, 
-        array_index: drag_item.array_index,
-        card_id: drag_item.id
+        card_id: drag_item.id,
+        id: drag_item.list_id(), /// lookup from store from card_id
+        array_index: drag_item.array_index() // lookup from store
       }
       const from = {
         id: props.current_list,
@@ -95,26 +96,32 @@ const dropCollect = (connect, monitor) => {
   }
 }
 
-
-const Card = (props) => {
-  /// check props for hovering, then put filler square above/below?
-  return  props.connectDropSource(
-    props.connectDragSource (
-      props.isDragging ?
-      <div className="card-dragging-filler" />
-      :
-      <div className="card" id={props.id} >
-        <div className="edit" id={props.id}>E</div>
-        {props.title}
-        {props.id}
-        {props.isDragging && 'DRAGGING  '}
-      </div>
-    )
-  )  
+class Card extends Component {
+  render() {
+    const { props } = this
+    return  props.connectDropSource(
+      props.connectDragSource (
+        props.isDragging ?
+        <div className="card-dragging-filler" />
+        :
+        <div className="card" id={props.id} >
+          <div className="edit" id={props.id}>E</div>
+          {props.title}
+          {props.id}
+          {props.isDragging && 'DRAGGING  '}
+        </div>
+      )
+    )  
+  }
 }
+
+// const Card = (props) => {
+//   /// check props for hovering, then put filler square above/below?
+// }
 
 const mapStateToProps = (state, props) => ({
   the_card: state.cards[props.id]
+  
 })
 
 const DnDCard = DropTarget(types.CARD, dropSpec, dropCollect)(DragSource(types.CARD, dragSpec, dragCollect)(Card))
