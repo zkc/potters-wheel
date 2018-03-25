@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import autobind from 'auto-bind'
 import { connect } from 'react-redux'
 import HTML5Backend from 'react-dnd-html5-backend';
 // import { default as TouchBackend } from 'react-dnd-touch-backend';
@@ -23,7 +22,6 @@ const mapStateToProps = (state) => ({
 class App extends Component {
   constructor(props) {
     super(props)
-    // autobind(this)
 
     this.state = {
       selected_card: null, /// aka card being dragged
