@@ -2,7 +2,7 @@ import { flat_data } from '../fakerDb'
 
 export const  UPDATE_CARD = 'card/UPDATE_CARD'
 
-const initialState = Object.assign({}, flat_data.cards) // why not? 
+const initialState = Object.assign({}, flat_data.cards)
 
 export default (state=initialState, action) => {
   switch (action.type) {

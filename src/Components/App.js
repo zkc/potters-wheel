@@ -14,7 +14,7 @@ import '../Styles/App.css'
 // feel the rhythm, feel the rhyme, trust the array indexes... maybe
 
 const mapStateToProps = (state) => ({
-  data: state.data, 
+  views: state.views, 
   cards: state.cards, 
   lists: state.lists
 })
@@ -25,7 +25,8 @@ class App extends Component {
 
     this.state = {
       selected_card: null, /// aka card being dragged
-      edit_card: false
+      edit_card: false, 
+      current_view: 'base'
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -56,11 +57,11 @@ class App extends Component {
 
 
   generateListDisplay() {
-    const { list_id_map } = this.props.data
-    const { cards, lists } = this.props
+    const { cards, lists, views } = this.props
+    const { current_view } = this.state
     const display_data = {
       all_cards: cards,
-      lists: list_id_map.map((listId, i) => ({ 
+      lists: views[current_view].list_id_map.map((listId, i) => ({ 
         id:listId, title: lists[listId].title, 
         array_index: i,
         cards: lists[listId].card_id_map.map((c, i) => ({ ...cards[c], array_index: i })) }))

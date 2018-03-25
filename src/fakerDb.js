@@ -51,7 +51,11 @@ export const flat_data = {
       body: ''
     }
   }, 
-  list_id_map: [10, 11]
+  views: {
+    base: {
+      list_id_map: [10, 11]
+    }
+  }
 }
 
 

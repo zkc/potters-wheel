@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux'
-import data from './data'
 import cards from './cards'
 import lists from './lists'
-
+import views from './views'
 
 export default combineReducers({
-  data,
+  views,
   lists,
   cards
-
 })
