@@ -13,34 +13,21 @@ const dragSpec = {
       id: props.id
     }
   }, 
-  endDrag(props, monitor, component) {
-    if (monitor.didDrop()) {
-      const dropOnCard = monitor.getDropResult()
 
-      const to = {
-        id: dropOnCard.list_id, 
-        array_index: dropOnCard.array_index
-      }
-      const from = {
-        id: props.current_list,
-        array_index: props.array_index        
-      }
-      const to_action = { to, from, card_id: props.id}
-  
-      props.moveCard(to_action)
-    }
-  }
+  // isDragging(props, monitor) {
+  //   //  THIS is what's plugged into the collect .isDragging functions
+  //   props.id === monitor.getItem().id
+  // }
+
 }
 
 const dropSpec = {
-  drop(props, monitor, component) {
-    // console.log(monitor.getDropResult()) why is this null?
-    return {
-      id: props.id,
-      array_index: props.array_index, 
-      list_id: props.current_list
+  hover(props, monitor) {
+    const dragItem = monitor.getItem()
+    if (dragItem.id !== props.id) {
+      props.moveCard({ dragItemId: dragItem.id, hoverItemId: props.id })
     }
-  } 
+  }
 }
 
 const dragCollect = (connect, monitor) => {
@@ -60,7 +47,7 @@ const dropCollect = (connect, monitor) => {
 const Card = (props) => {
   return  props.connectDropSource(
     props.connectDragSource (
-      <div className="card" id={props.id} style={{ display: props.isDragging && 'none' }}>
+      <div className="card" id={props.id} style={{ background: props.isDragging && 'blue' }}>
         <div className="edit" id={props.id}>E</div>
         {props.title}
         {props.isDragging && 'DRAGGING  '}
