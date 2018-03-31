@@ -9,6 +9,11 @@ export const flat_data = {
       id: 11,
       title: 'What\'s next!', 
       card_id_map: [88, 89, 90, 91]
+    }, 
+    12: {
+      id: 12, 
+      title: 'Empty List', 
+      card_id_map: []
     }
   }, 
   cards: {
@@ -53,7 +58,7 @@ export const flat_data = {
   }, 
   views: {
     base: {
-      list_id_map: [10, 11]
+      list_id_map: [10, 11, 12]
     }
   }
 }

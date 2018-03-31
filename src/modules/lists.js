@@ -1,7 +1,8 @@
 import { flat_data } from '../fakerDb'
 
-export const  UPDATE_LIST = 'list/UPDATE_LIST'
+export const UPDATE_LIST = 'list/UPDATE_LIST'
 export const MOVE_CARD = 'list/MOVE_CARD'
+export const MOVE_CARD_TO_EMPTY_LIST = 'list/MOVE_CARD_TO_EMPTY_LIST'
 
 const initialState = Object.assign({}, flat_data.lists)
 
@@ -13,8 +14,40 @@ export default (state=initialState, action) => {
         [action.list.id]: action.list
       }
 
+    case MOVE_CARD_TO_EMPTY_LIST: {
+      console.log(action)
+      const { dragItemId, listId } = action
+
+      let dragListIndex, dragListSource
+
+      for (const list in state) {
+        const dragItemIndexCheck = state[list].card_id_map.indexOf(dragItemId) 
+        if (dragItemIndexCheck > -1) {
+          dragListIndex = dragItemIndexCheck
+          dragListSource = list
+        }
+      }
+
+      const source_card_id_map = state[dragListSource].card_id_map.slice()
+      source_card_id_map.splice(dragListIndex, 1)
+
+      const hoverListSource = state[listId].id
+
+      console.log(hoverListSource)
       
-    case MOVE_CARD:
+      const new_lists =  {
+        ...state, 
+        [dragListSource]: { ...state[dragListSource], card_id_map: source_card_id_map },
+        [hoverListSource]: { ...state[hoverListSource], card_id_map: [dragItemId] }
+      }
+
+      console.log(new_lists)
+
+      return new_lists
+    }
+
+      
+    case MOVE_CARD: {
       const { dragItemId, hoverItemId } = action
 
       if (dragItemId === hoverItemId) {
@@ -66,6 +99,7 @@ export default (state=initialState, action) => {
           [hoverListSource]: { ...state[hoverListSource], card_id_map: hover_card_id_map }
         }
       }
+    }
 
     default:
       return state
@@ -83,3 +117,7 @@ export const moveCard = (mover_ids) => ({
   ...mover_ids
 })
 
+export const moveCardToEmptyList = (details) => ({
+  type: MOVE_CARD_TO_EMPTY_LIST,
+  ...details
+})
