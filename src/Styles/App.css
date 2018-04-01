@@ -1,22 +1,32 @@
+.app {
+  height: 100%;
+}
+
 .top-bar {
   height: 100px;
   width: 100%;
   background: rgb(147, 125, 182);
+  margin: 0;
 }
 
 .list-space {
   display: flex;
   padding-top: 20px;
   
-  width: fit-content;
   margin: 0 auto;
+  width: fit-content;
+  height: 100%;
 }
 
 .list {
-  /* border: 1px solid black; */
+  border: 1px solid black;
   padding: 5px;
   margin: 0 10px;
   width: 250px;
+  min-height: 70vh;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .list-title {
@@ -25,9 +35,21 @@
   overflow-wrap: break-word;
 }
 
+.list-bottom-buffer {
+  flex: 1;
+  align-self: stretch;
+}
+
 
 .card-space {
+  flex: 1;
+  align-self: stretch;
   margin-top: 15px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card {
@@ -36,6 +58,7 @@
   min-height: 70px;
   margin-top: 10px;
   position: relative;
+  background: blanchedalmond;
 }
 
 .card .edit {

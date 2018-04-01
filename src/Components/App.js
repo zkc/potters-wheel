@@ -92,10 +92,10 @@ class App extends Component {
     const lists = display_data.lists.map(l => <List {...l} key={l.id}/>) 
 
     return (
-      <div className="App" onClick={this.handleClick}>
+      <div className="app" onClick={this.handleClick}>
         {this.state.edit_card && <CardEditor updateCard={this.props.updateCard} {...display_data.all_cards[this.state.selected_card]} card_id={this.state.selected_card} />}
         <div className="top-bar" style={{ textAlign: 'center' }}>
-          <p>{this.state.selected_card}</p>
+          <div>{this.state.selected_card}</div>
           <button onClick={() => {this.addNewList()}}>Add List</button>
           <button onClick={() => {this.addNewCard()}}>Add Card</button>
         </div>

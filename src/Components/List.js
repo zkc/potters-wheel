@@ -4,34 +4,27 @@ import { connect } from 'react-redux'
 import ContentEditable from 'react-contenteditable'
 
 import Card from './Card'
-import CardPlaceholder from './CardPlaceholder'
+import ListBottomBuffer from './ListBottomBuffer'
 import types from '../types'
-import { moveCardToEmptyList, updateList } from '../modules/lists'
+import { updateList } from '../modules/lists'
 
-const dropSpec = {
-  hover(props, monitor) {
-    if (props.cards.length === 0) {
-      props.moveCardToEmptyList({ dragItemId: monitor.getItem().id, listId: props.id  })
-    }
-  }
-}
+const dropSpec = {}
 
 const dropCollect = (connect, monitor) => {
   return {
     connectDropSource: connect.dropTarget(),
-    isOver: monitor.isOver({ shalow: true }), 
-    item: monitor.getItem()
+    isOver: monitor.isOver({ shallow: true }), 
+    dragItem: monitor.getItem(),
+    dragItemType: monitor.getItemType()
   }
 }
 
 
 const List = (props) => {
   const cards = props.cards.map(c => <Card {...c} current_list={props.id} key={c.id+'card'}/>)
-  // if (props.isOver) {
-  //   console.log(props.item)
-      /// want a placeholder when moving card to bottom of a different list. otherwise, no.
-  //   cards.push(<CardPlaceholder />)
-  // }
+  /// move to drag over to bottom of list
+  cards.push(<ListBottomBuffer listId={props.id} />)
+
   return props.connectDropSource(
     <div className="list" id={props.id}>
       <ContentEditable
@@ -49,5 +42,5 @@ const List = (props) => {
 
 const DnDList = DropTarget([types.LIST, types.CARD], dropSpec, dropCollect)(List)
 
-export default connect(null, { moveCardToEmptyList, updateList })(DnDList)
+export default connect(null, { updateList })(DnDList)
 

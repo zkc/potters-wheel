@@ -4,7 +4,7 @@ import { NEW_CARD } from './cards'
 export const UPDATE_LIST = 'list/UPDATE_LIST'
 export const NEW_LIST = 'list/NEW_LIST'
 export const MOVE_CARD = 'list/MOVE_CARD'
-export const MOVE_CARD_TO_EMPTY_LIST = 'list/MOVE_CARD_TO_EMPTY_LIST'
+export const MOVE_CARD_TO_BOTTOM_OF_LIST = 'list/MOVE_CARD_TO_BOTTOM_OF_LIST'
 
 const initialState = Object.assign({}, flat_data.lists)
 
@@ -32,7 +32,7 @@ export default (state=initialState, action) => {
       }
     }
 
-    case MOVE_CARD_TO_EMPTY_LIST: {
+    case MOVE_CARD_TO_BOTTOM_OF_LIST: {
       const { dragItemId, listId } = action
 
       let dragListIndex, dragListSource
@@ -42,18 +42,19 @@ export default (state=initialState, action) => {
         if (dragItemIndexCheck > -1) {
           dragListIndex = dragItemIndexCheck
           dragListSource = list
+          if (dragListSource*1 === listId*1) {
+            return state
+          }
         }
       }
 
       const source_card_id_map = state[dragListSource].card_id_map.slice()
       source_card_id_map.splice(dragListIndex, 1)
-
-      const hoverListSource = state[listId].id
-      
+       
       return {
         ...state, 
         [dragListSource]: { ...state[dragListSource], card_id_map: source_card_id_map },
-        [hoverListSource]: { ...state[hoverListSource], card_id_map: [dragItemId] }
+        [listId]: { ...state[listId], card_id_map: [...state[listId].card_id_map, dragItemId] }
       }
     }
       
@@ -136,7 +137,7 @@ export const moveCard = (mover_ids) => ({
   ...mover_ids
 })
 
-export const moveCardToEmptyList = (details) => ({
-  type: MOVE_CARD_TO_EMPTY_LIST,
+export const moveCardToBottomOfList = (details) => ({
+  type: MOVE_CARD_TO_BOTTOM_OF_LIST,
   ...details
 })
