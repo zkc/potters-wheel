@@ -1,11 +1,12 @@
 import React from 'react'
 import { DropTarget } from 'react-dnd'
 import { connect } from 'react-redux'
+import ContentEditable from 'react-contenteditable'
 
 import Card from './Card'
 import CardPlaceholder from './CardPlaceholder'
 import types from '../types'
-import { moveCardToEmptyList } from '../modules/lists'
+import { moveCardToEmptyList, updateList } from '../modules/lists'
 
 const dropSpec = {
   hover(props, monitor) {
@@ -33,7 +34,12 @@ const List = (props) => {
   // }
   return props.connectDropSource(
     <div className="list" id={props.id}>
-      <div className="list-title">{props.title}</div>
+      <ContentEditable
+        className="list-title"
+        html={props.title}
+        disabled={false}
+        onChange={(e) => props.updateList({ id: props.id, title: e.target.value })}
+      />
       <div className="card-space">
         {cards}
       </div>
@@ -43,5 +49,5 @@ const List = (props) => {
 
 const DnDList = DropTarget([types.LIST, types.CARD], dropSpec, dropCollect)(List)
 
-export default connect(null, { moveCardToEmptyList })(DnDList)
+export default connect(null, { moveCardToEmptyList, updateList })(DnDList)
 

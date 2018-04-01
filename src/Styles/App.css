@@ -22,7 +22,7 @@
 .list-title {
   border-bottom: 1px solid black;
   padding: 3px;
-  pointer-events: none;
+  overflow-wrap: break-word;
 }
 
 

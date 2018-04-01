@@ -42,6 +42,7 @@ class App extends Component {
         this.setState({ selected_card: eId, edit_card: true }) // ? move this back to the card? 
         break
 
+      case 'card-editor':
       case 'card':
         this.setState({ selected_card: eId, edit_card: false })
         break
@@ -53,6 +54,7 @@ class App extends Component {
         break
 
       default:
+        console.log(eClass, 'unknown')
         break
     }
   }
@@ -61,6 +63,7 @@ class App extends Component {
   generateListDisplay() {
     const { cards, lists, views } = this.props
     const { current_view } = this.state
+    console.log(lists)
     const display_data = {
       all_cards: cards,
       lists: views[current_view].list_id_map.map((listId, i) => ({ 
