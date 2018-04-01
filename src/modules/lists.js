@@ -1,5 +1,6 @@
 import { flat_data } from '../fakerDb'
 
+import { NEW_CARD } from './cards'
 export const UPDATE_LIST = 'list/UPDATE_LIST'
 export const NEW_LIST = 'list/NEW_LIST'
 export const MOVE_CARD = 'list/MOVE_CARD'
@@ -15,10 +16,19 @@ export default (state=initialState, action) => {
         [action.list.id]: { ...state[action.list.id], title: action.list.title }
       }
     }
+
     case NEW_LIST: {
       return {
         ...state, 
         [action.list.id]: action.list
+      }
+    }
+
+    case NEW_CARD: {
+      /// static for now, add listId later
+      return {
+        ...state, 
+        [10]: { ...state[10], card_id_map: [...state[10].card_id_map, action.card.id] }
       }
     }
 

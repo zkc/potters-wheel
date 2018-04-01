@@ -6,7 +6,7 @@ import { DragDropContext } from 'react-dnd';
 
 import List from './List'
 import CardEditor from './CardEditor'
-import { updateCard } from '../modules/cards'
+import { updateCard, addCard } from '../modules/cards'
 import { addNewList } from '../modules/lists'
 import '../Styles/App.css'
 
@@ -63,7 +63,6 @@ class App extends Component {
   generateListDisplay() {
     const { cards, lists, views } = this.props
     const { current_view } = this.state
-    console.log(lists)
     const display_data = {
       all_cards: cards,
       lists: views[current_view].list_id_map.map((listId, i) => ({ 
@@ -83,6 +82,10 @@ class App extends Component {
     })
   }
 
+  addNewCard() {
+    this.props.addCard()
+  }
+
 
   render() {
     const display_data = this.generateListDisplay()
@@ -94,6 +97,7 @@ class App extends Component {
         <div className="top-bar" style={{ textAlign: 'center' }}>
           <p>{this.state.selected_card}</p>
           <button onClick={() => {this.addNewList()}}>Add List</button>
+          <button onClick={() => {this.addNewCard()}}>Add Card</button>
         </div>
 
         <div className="list-space" id='list-space' >
@@ -106,5 +110,5 @@ class App extends Component {
 
 
 export default connect(mapStateToProps, 
-  { updateCard, addNewList }
+  { updateCard, addCard, addNewList }
 )(DragDropContext(HTML5Backend)(App))
