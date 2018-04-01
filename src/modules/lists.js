@@ -1,6 +1,6 @@
 import { flat_data } from '../fakerDb'
 
-export const UPDATE_LIST = 'list/UPDATE_LIST'
+export const NEW_LIST = 'list/NEW_LIST'
 export const MOVE_CARD = 'list/MOVE_CARD'
 export const MOVE_CARD_TO_EMPTY_LIST = 'list/MOVE_CARD_TO_EMPTY_LIST'
 
@@ -8,11 +8,12 @@ const initialState = Object.assign({}, flat_data.lists)
 
 export default (state=initialState, action) => {
   switch (action.type) {
-    case UPDATE_LIST:
+    case NEW_LIST: {
       return {
         ...state, 
         [action.list.id]: action.list
       }
+    }
 
     case MOVE_CARD_TO_EMPTY_LIST: {
       console.log(action)
@@ -45,7 +46,6 @@ export default (state=initialState, action) => {
 
       return new_lists
     }
-
       
     case MOVE_CARD: {
       const { dragItemId, hoverItemId } = action
@@ -107,10 +107,12 @@ export default (state=initialState, action) => {
 }
 
 
-export const updateList = ({ list }) => ({
-  type: UPDATE_LIST, 
-  list
-}) 
+export const addNewList = ( list ) => {
+  return {
+    type: NEW_LIST, 
+    list
+  }
+}
 
 export const moveCard = (mover_ids) => ({
   type: MOVE_CARD, 

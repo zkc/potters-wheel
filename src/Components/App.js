@@ -7,7 +7,7 @@ import { DragDropContext } from 'react-dnd';
 import List from './List'
 import CardEditor from './CardEditor'
 import { updateCard } from '../modules/cards'
-import { moveCard } from '../modules/lists'
+import { addNewList } from '../modules/lists'
 import '../Styles/App.css'
 
 
@@ -28,6 +28,8 @@ class App extends Component {
       edit_card: false, 
       current_view: 'base'
     }
+
+    this.listId = 20
 
     this.handleClick = this.handleClick.bind(this)
   }
@@ -69,6 +71,14 @@ class App extends Component {
     return display_data
   }
 
+  addNewList() {
+    this.listId++
+    this.props.addNewList({
+      id: this.listId,
+      title: 'New List', 
+      card_id_map: []
+    })
+  }
 
 
   render() {
@@ -80,6 +90,7 @@ class App extends Component {
         {this.state.edit_card && <CardEditor updateCard={this.props.updateCard} {...display_data.all_cards[this.state.selected_card]} card_id={this.state.selected_card} />}
         <div className="top-bar" style={{ textAlign: 'center' }}>
           <p>{this.state.selected_card}</p>
+          <button onClick={() => {this.addNewList()}}>Add List</button>
         </div>
 
         <div className="list-space" id='list-space' >
@@ -92,5 +103,5 @@ class App extends Component {
 
 
 export default connect(mapStateToProps, 
-  { updateCard, moveCard }
+  { updateCard, addNewList }
 )(DragDropContext(HTML5Backend)(App))

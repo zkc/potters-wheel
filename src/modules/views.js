@@ -1,5 +1,6 @@
 import { flat_data } from '../fakerDb'
 
+import { NEW_LIST } from './lists'
 export const  FETCH_VIEW = 'view/FETCH_VIEW'
 
 const initialState = Object.assign({}, flat_data.views)
@@ -11,7 +12,15 @@ export default (state=initialState, action) => {
       return {
         ...state
       }
-      
+    
+    case NEW_LIST: {
+      return {
+        ...state, 
+        base: {
+          list_id_map: [...state.base.list_id_map, action.list.id]
+        }
+      }
+    }
     default:
       return state
   }
