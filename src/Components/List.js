@@ -1,5 +1,5 @@
 import React from 'react'
-import { DropTarget } from 'react-dnd'
+import { DropTarget, DragSource } from 'react-dnd'
 import { connect } from 'react-redux'
 import ContentEditable from 'react-contenteditable'
 
@@ -7,8 +7,27 @@ import Card from './Card'
 import ListBottomBuffer from './ListBottomBuffer'
 import types from '../types'
 import { updateList } from '../modules/lists'
+import { moveList } from '../modules/views'
 
-const dropSpec = {}
+const dropSpec = {
+  hover(props, monitor) {
+    if(monitor.getItemType() === types.LIST) {
+      if (props.id !== monitor.getItem().id) {
+        props.moveList({
+          dragListId: monitor.getItem().id,
+          hoverOverId: props.id
+        })
+      }
+    }
+  }
+}
+
+const dragSpec = {
+  beginDrag(props, monitor) {
+    const item = { id: props.id }
+    return item
+  }
+}
 
 const dropCollect = (connect, monitor) => {
   return {
@@ -19,6 +38,12 @@ const dropCollect = (connect, monitor) => {
   }
 }
 
+const dragCollect = (connect, monitor) => {
+  return {
+    connectDragSource: connect.dragSource()
+  }
+} 
+
 
 const List = (props) => {
   const cards = props.cards.map(c => <Card {...c} current_list={props.id} key={c.id+'card'}/>)
@@ -26,21 +51,23 @@ const List = (props) => {
   cards.push(<ListBottomBuffer listId={props.id} />)
 
   return props.connectDropSource(
-    <div className="list" id={props.id}>
-      <ContentEditable
-        className="list-title"
-        html={props.title}
-        disabled={false}
-        onChange={(e) => props.updateList({ id: props.id, title: e.target.value })}
-      />
-      <div className="card-space">
-        {cards}
+    props.connectDragSource(
+      <div className="list" id={props.id}>
+        <ContentEditable
+          className="list-title"
+          html={props.title}
+          disabled={false}
+          onChange={(e) => props.updateList({ id: props.id, title: e.target.value })}
+        />
+        <div className="card-space">
+          {cards}
+        </div>
       </div>
-    </div>
+    )
   )
 }
 
-const DnDList = DropTarget([types.LIST, types.CARD], dropSpec, dropCollect)(List)
+const DnDList = DragSource(types.LIST, dragSpec, dragCollect)(DropTarget([types.LIST, types.CARD], dropSpec, dropCollect)(List))
 
-export default connect(null, { updateList })(DnDList)
+export default connect(null, { updateList, moveList })(DnDList)
 
