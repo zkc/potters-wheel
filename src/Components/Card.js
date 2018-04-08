@@ -14,10 +14,9 @@ const dragSpec = {
     }
   }, 
 
-  // isDragging(props, monitor) {
-  //   //  THIS is what's plugged into the collect .isDragging functions
-  //   props.id === monitor.getItem().id
-  // }
+  isDragging(props, monitor) {
+    return props.id === monitor.getItem().id
+  }
 
 }
 
@@ -47,10 +46,9 @@ const dropCollect = (connect, monitor) => {
 const Card = (props) => {
   return  props.connectDropSource(
     props.connectDragSource (
-      <div className="card" id={props.id} style={{ background: props.isDragging && 'blue' }}>
+      <div className="card" id={props.id} style={{ background: props.isDragging && 'lightblue' }}>
         <div className="edit" id={props.id}>E</div>
         {props.title}
-        {props.isDragging && 'DRAGGING  '}
       </div>
     )
   )  
